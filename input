@@ -1,0 +1,17 @@
+(start
+        (initial
+                (on blockB table)
+                (on blockA table))
+        (goal
+                (on blockA blockB)
+                (on blockB table))
+        (actions
+                (move
+                        (parameters
+                                ?x ?y ?z)
+                        (preconditions
+                                (on ?x ?y))
+                        (effects
+                                (on ?x ?z))
+			(delete-effects
+				(on ?x ?y)))))

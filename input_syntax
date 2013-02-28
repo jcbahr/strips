@@ -1,0 +1,18 @@
+(start
+        (initial
+                (<fluent> <obj>+)
+                (<fluent> <obj>+))
+        (goal
+                (<fluent> <obj>+)
+                (<fluent> <obj>+))
+        (actions
+                (NAME ; comment
+                        (parameters
+                                ?varA ?varB)
+                        (preconditions
+                                (<fluent> <var>+)
+                                (<fluent> <var>+))
+                        (effects
+                                (<fluent> <var>+))
+                        (delete-effects
+                                (<fluent <var>+)))))
