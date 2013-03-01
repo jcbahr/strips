@@ -1,17 +1,20 @@
 (start blockworld
+	;; this is the initial state
         (initial
                 (on blockB table)
                 (on blockA table))
+	;; this is the goal state
         (goal
                 (on blockA blockB)
                 (on blockB table))
+	;; these are actions
         (actions
                 (move
-                        (parameters
+                        (parameters		; parameters to "move"
                                 ?x ?y ?z)
-                        (preconditions
+                        (preconditions		; requirements for "move"
                                 (on ?x ?y))
-                        (effects
+                        (effects		; add-effects of "move'
                                 (on ?x ?z))
-			(delete-effects
+			(delete-effects		; delete-effects of "move"
 				(on ?x ?y)))))
