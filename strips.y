@@ -1,6 +1,5 @@
 %{
 #include "strips.h"
-extern char* problem_name;
 
 void yyerror(const char *s);
 
@@ -14,6 +13,8 @@ void yyerror(const char *s);
 %union
 {
 	char *sval;
+	Fluent *fluentval;
+
 }
 
 %token START_TK
@@ -37,6 +38,8 @@ void yyerror(const char *s);
 
 %token <sval> IDENTIFIER_TK
 %token <sval> VARIABLE_TK
+
+%type <fluentval> fluent_list
 
 %%
 
@@ -71,7 +74,7 @@ action_plus:
 
 action:
 	'(' IDENTIFIER_TK parameters
-	    preconditions effects delete_effects ')'		{ };
+	    preconditions effects delete_effects ')'		{  };
 
 
 parameters:

@@ -3,6 +3,9 @@ set of goal state
 list for plan
 stack for set of nodes
 
+Do I want these structs as types in yylval?
+I think so
+
 typdef struct action_list:
 	char * name
 	char ** parameters
