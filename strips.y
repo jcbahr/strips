@@ -1,12 +1,9 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
-
-extern int yylex();
-extern int yyparse();
-extern FILE *yyin;
+#include "strips.h"
+extern char* problem_name;
 
 void yyerror(const char *s);
+
 %}
 
 %error-verbose
@@ -46,7 +43,8 @@ void yyerror(const char *s);
 
 start:
 	'(' START_TK IDENTIFIER_TK
-	    initial goal actions ')'	{  };
+	    initial goal actions ')'		{ problem_name = malloc (strlen ($3) + 1);
+	    					  strcpy(problem_name,$3); };
 
 
 /********** INITIAL **********/
@@ -68,7 +66,7 @@ actions:
 
 action_plus:
 	  action				{  }
-	| action action_plus			{  }
+	| action_plus action			{  }
 	;
 
 action:
@@ -90,11 +88,11 @@ delete_effects:
 
 fluent_list:
 	  '(' IDENTIFIER_TK id_star ')'
-	| '(' IDENTIFIER_TK id_star ')' fluent_list	{ printf("fluent_list\n"); };
+	| fluent_list '(' IDENTIFIER_TK id_star ')'	{ printf("fluent_list\n"); };
 
 id_star:
 	  /* nothing */
-	| IDENTIFIER_TK id_star
+	| id_star IDENTIFIER_TK
 	;
 
 var_list:
@@ -102,7 +100,7 @@ var_list:
 
 var_star:
 	  /* nothing */
-	| VARIABLE_TK var_star			{  }
+	| var_star VARIABLE_TK
 	;
 
 

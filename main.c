@@ -25,4 +25,5 @@ int main (int argc, char *argv[])
 	{
 		yyparse();
 	}
+	printf("The problem name is %s",problem_name);
 }

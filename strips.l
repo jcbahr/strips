@@ -1,5 +1,5 @@
 %{
-#include <stdio.h>
+#include "strips.h"
 #include "strips.tab.h"
 
 int linenum = 0;
@@ -14,8 +14,8 @@ int linenum = 0;
 [ \t\n]+				/* whitespace */;
 \(					{ return '('; }
 \)					{ return ')'; }
-(?i:start)				{ puts("start"); return START_TK; }
-(?i:initial)				{ puts("init"); return INITIAL_TK; }
+(?i:start)				{ return START_TK; }
+(?i:initial)				{ return INITIAL_TK; }
 (?i:goal)				{ return GOAL_TK; }
 (?i:actions)				{ return ACTIONS_TK; }
 (?i:parameters)				{ return PARAMETERS_TK; }
@@ -26,7 +26,6 @@ int linenum = 0;
 	/*	VALUES		*/
 
 [a-zA-Z]+				{ yylval.sval = strdup(yytext);
-					  printf("identifier: %s\n",yylval.sval);
 					  return IDENTIFIER_TK; }
 \?[a-zA-Z]+				{ yylval.sval = strdup(yytext);
 					  return VARIABLE_TK; }
