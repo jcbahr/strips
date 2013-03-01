@@ -9,6 +9,11 @@ extern FILE *yyin;
 void yyerror(const char *s);
 %}
 
+%error-verbose
+%define "parse.lac" "full"
+
+%start start
+
 %union
 {
 	char *sval;
@@ -20,7 +25,8 @@ void yyerror(const char *s);
 %token ACTIONS_TK
 %token PARAMETERS_TK
 %token PRECONDITIONS_TK
-%token RESULT_TK
+%token EFFECTS_TK
+%token DEL_EFFECTS_TK
 %token EOF_TK 0 "end of file"
 
 %token PLUS
@@ -38,12 +44,9 @@ void yyerror(const char *s);
 %%
 
 
-input:
-	  start_expr EOF_TK 
-;
-
-start_expr:
-	'(' START_TK initial goal actions ')'	{ printf("HELLO"); };
+start:
+	'(' START_TK IDENTIFIER_TK
+	    initial goal actions ')'	{  };
 
 
 /********** INITIAL **********/
@@ -70,32 +73,36 @@ action_plus:
 
 action:
 	'(' IDENTIFIER_TK parameters
-	    preconditions results ')'		{  };
+	    preconditions effects delete_effects ')'		{ };
 
 
 parameters:
 	'(' PARAMETERS_TK var_star ')';
 
-
-var_star:
-	  /* nothing */
-	| VARIABLE_TK var_star			{  }
-	;
-
 preconditions:
-	'(' PRECONDITIONS_TK var_star ')'		{ printf("precondition_list\n"); };
+	'(' PRECONDITIONS_TK var_list ')'		{ printf("precondition_list\n"); };
 
+effects:
+	  '(' EFFECTS_TK var_list ')'			{ printf("effects\n"); };
 
-results:
-	  '(' RESULT_TK fluent_list ')'			{ printf("result_list\n"); };
-
+delete_effects:
+	  '(' DEL_EFFECTS_TK var_list ')'		{ printf("delete_effects\n"); };
 
 fluent_list:
-	  '(' VARIABLE_TK id_star ')'			{ printf("int fluent_expr\n"); };
+	  '(' IDENTIFIER_TK id_star ')'
+	| '(' IDENTIFIER_TK id_star ')' fluent_list	{ printf("fluent_list\n"); };
 
 id_star:
 	  /* nothing */
 	| IDENTIFIER_TK id_star
+	;
+
+var_list:
+	  '(' IDENTIFIER_TK var_star ')';
+
+var_star:
+	  /* nothing */
+	| VARIABLE_TK var_star			{  }
 	;
 
 

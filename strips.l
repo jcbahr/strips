@@ -10,32 +10,23 @@ int linenum = 0;
 
 	/*	SYMBOLS		*/
 
-[ \t]+					/* whitespace */;
-\;+.*					/* comment */;
-'\n'					{ linenum++; }
-(?i:start)				{ printf("hi"); return START_TK; }
-(?i:initial)				{ return INITIAL_TK; }
+[ \t\n]+				/* whitespace */;
+\(					{ return '('; }
+\)					{ return ')'; }
+(?i:start)				{ puts("start"); return START_TK; }
+(?i:initial)				{ puts("init"); return INITIAL_TK; }
 (?i:goal)				{ return GOAL_TK; }
 (?i:actions)				{ return ACTIONS_TK; }
 (?i:parameters)				{ return PARAMETERS_TK; }
 (?i:preconditions)			{ return PRECONDITIONS_TK; }
-(?i:result)				{ return RESULT_TK; }
-	/*	OPERATORS	*/
+(?i:effects)				{ return EFFECTS_TK; }
+(?i:delete-effects)			{ return DEL_EFFECTS_TK; }
 
-\+					{ return PLUS; }
--					{ return MINUS; }
-\*					{ return TIMES; }
-\/					{ return DIVIDE; }
 
-	/*	BOOL OPs	*/
-
-(?i:and)				{ return AND_TK; }
-(?i:or)					{ return OR_TK; }
-(?i:not)				{ return NOT_TK; }
-
-	/*	VALUES		*/
+	/*	VALUES	\;+.*					 comment ;*/
 
 [a-zA-Z]+				{ yylval.sval = strdup(yytext);
+					  printf("identifier: %s\n",yylval.sval);
 					  return IDENTIFIER_TK; }
 \?[a-zA-Z]+				{ yylval.sval = strdup(yytext);
 					  return VARIABLE_TK; }
