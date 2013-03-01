@@ -1,4 +1,5 @@
 #include "strips.h"
+char * problem_name;
 
 int main (int argc, char *argv[])
 {

@@ -8,7 +8,7 @@ FLEX_DEBUG=flex.debug
 default:
 	$(BISON) -d $(FILE).y
 	flex $(FILE).l
-	$(CC) main.c $(FILE).tab.c lex.yy.c file.c -lfl -o ${EXEC}
+	$(CC) main.c $(FILE).tab.c lex.yy.c -lfl -o ${EXEC}
 	rm lex.yy.c
 	rm $(FILE).tab.c
 	rm $(FILE).tab.h
