@@ -50,13 +50,13 @@ start:
 /********** INITIAL **********/
 
 initial:
-	'(' INITIAL_TK fluent_list ')'		{ printf("initial"); };
+	'(' INITIAL_TK fluent_list ')'		{ };
 
 
 /********** GOAL **********/
 
 goal:
-	'(' GOAL_TK fluent_list ')'		{ puts("goal"); };
+	'(' GOAL_TK fluent_list ')'		{ ("goal"); };
 
 
 /********** ACTIONS **********/
