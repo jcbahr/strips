@@ -15,6 +15,5 @@ typedef struct _Fluent
 	char * var;
 	char * obj[MAX_OBJ_PER_ACTION];
 	struct _Fluent *next;
-	struct _Fluent *prev;
 } Fluent;
 
