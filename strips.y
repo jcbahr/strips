@@ -14,7 +14,7 @@ void yyerror(const char *s);
 {
 	char *sval;
 	Fluent *fluentval;
-
+	ID_List *idval;
 }
 
 %token START_TK
@@ -40,6 +40,7 @@ void yyerror(const char *s);
 %token <sval> VARIABLE_TK
 
 %type <fluentval> fluent fluent_list
+%type <idval> id_star
 
 %%
 
@@ -47,7 +48,7 @@ void yyerror(const char *s);
 start:
 	'(' START_TK IDENTIFIER_TK
 	    initial goal actions ')'		{ problem_name = malloc (strlen ($3) + 1);
-	    					  strcpy(problem_name,$3); };
+	    					  strcpy(problem_name, $3); };
 
 
 /********** INITIAL **********/
@@ -90,15 +91,26 @@ delete_effects:
 	  '(' DEL_EFFECTS_TK var_list ')'		{  };
 
 fluent:
-	'(' IDENTIFIER_TK id_star ')'			{  };
+	'(' IDENTIFIER_TK id_star ')'			{ Fluent * fluent;
+							  fluent->var = malloc (strlen ($2) +1);
+							  strcpy(fluent->var, $2);
+							  fluent->obj = $3; 
+							  fluent->next = NULL; };
 
 fluent_list:
-	  fluent
-	| fluent_list fluent				{  };
+	  fluent					{  }
+	| fluent fluent_list				{  }
+	;
 
 id_star:
-	  /* nothing */
-	| id_star IDENTIFIER_TK
+	  /* nothing */					{ $$ = malloc (sizeof(ID_List));
+	  						  $$->id = NULL;
+							  $$->next = NULL; }
+
+	| IDENTIFIER_TK	id_star				{ $$ = malloc (sizeof(ID_List));;
+							  strcpy($$->id, $1);
+							  $$->next = $2; }
+							  
 	;
 
 var_list:
