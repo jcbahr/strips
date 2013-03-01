@@ -39,7 +39,7 @@ void yyerror(const char *s);
 %token <sval> IDENTIFIER_TK
 %token <sval> VARIABLE_TK
 
-%type <fluentval> fluent_list
+%type <fluentval> fluent fluent_list
 
 %%
 
