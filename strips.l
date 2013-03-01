@@ -10,6 +10,7 @@ int linenum = 0;
 
 	/*	SYMBOLS		*/
 
+\;.*					/* comment */;
 [ \t\n]+				/* whitespace */;
 \(					{ return '('; }
 \)					{ return ')'; }
@@ -22,8 +23,7 @@ int linenum = 0;
 (?i:effects)				{ return EFFECTS_TK; }
 (?i:delete-effects)			{ return DEL_EFFECTS_TK; }
 
-
-	/*	VALUES	\;+.*					 comment ;*/
+	/*	VALUES		*/
 
 [a-zA-Z]+				{ yylval.sval = strdup(yytext);
 					  printf("identifier: %s\n",yylval.sval);

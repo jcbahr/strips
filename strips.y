@@ -109,29 +109,9 @@ var_star:
 
 %%
 
-/*main()
-{
-	extern linenum;
-	char *filename = "input";
-	FILE *filepointer = fopen(filename,"r");
-	//check if valid file
-	if(!filepointer)
-	{
-		printf("Woah dude. There ain't no %s file there.\n",filename);
-		return -1;
-	}
-	//set flex to read from this file, not from stdin
-	yyin = filepointer;
-	while (!feof(yyin)) //not the file's EOF
-	{
-		yyparse();
-	}
-
-}
-*/
-
 void yyerror(const char *s)
 {
 	printf("\nError: %s\n",s);
+	fprintf(stderr,"\nError: %s\n",s);
 	exit(-1);
 }
