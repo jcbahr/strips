@@ -1,1 +1,0 @@
-char * problem_name;

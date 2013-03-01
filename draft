@@ -1,0 +1,47 @@
+set of start state
+set of goal state
+list for plan
+stack for set of nodes
+
+typdef struct action_list:
+	char * name
+	char ** parameters
+
+
+typedef struct fluent:
+	char * var
+	char ** obj
+
+	
+
+
+
+start:	(A on B), (B on TABLE)
+goal:	(A on TABLE), (B on A)
+
+actions:	(take (X, Y)
+			preconditions: (X on Y)
+			add: (have X)
+			delete: (X on Y)
+
+		(put (X, Y)
+			preconditions: (have X)
+			add: (X on Y)
+			delete: (have X)
+
+__strips__
+
+stack: '(A on TABLE), (B on A)'
+plan: ''
+
+pop (A on TABLE) off of the stack
+is there an action that results in (A on TABLE)?
+(put (A, TABLE)) does it
+
+stack: '(have A), (put (A on TABLE)), (B on TABLE)'
+plan: ''
+
+pop (have A) off of the stack
+is there an action that results in (have A)?
+(take (A, ?!?!)) does it				This is the variable instantiation problem
+

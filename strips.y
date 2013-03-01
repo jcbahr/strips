@@ -56,13 +56,13 @@ initial:
 /********** GOAL **********/
 
 goal:
-	'(' GOAL_TK fluent_list ')'		{ ("goal"); };
+	'(' GOAL_TK fluent_list ')'		{  };
 
 
 /********** ACTIONS **********/
 
 actions:
-	'(' ACTIONS_TK action_plus ')'		{ puts("actions"); };
+	'(' ACTIONS_TK action_plus ')'		{  };
 
 action_plus:
 	  action				{  }
@@ -78,17 +78,20 @@ parameters:
 	'(' PARAMETERS_TK var_star ')';
 
 preconditions:
-	'(' PRECONDITIONS_TK var_list ')'		{ printf("precondition_list\n"); };
+	'(' PRECONDITIONS_TK var_list ')'		{  };
 
 effects:
-	  '(' EFFECTS_TK var_list ')'			{ printf("effects\n"); };
+	  '(' EFFECTS_TK var_list ')'			{  };
 
 delete_effects:
-	  '(' DEL_EFFECTS_TK var_list ')'		{ printf("delete_effects\n"); };
+	  '(' DEL_EFFECTS_TK var_list ')'		{  };
+
+fluent:
+	'(' IDENTIFIER_TK id_star ')'			{  };
 
 fluent_list:
-	  '(' IDENTIFIER_TK id_star ')'
-	| fluent_list '(' IDENTIFIER_TK id_star ')'	{ printf("fluent_list\n"); };
+	  fluent
+	| fluent_list fluent				{  };
 
 id_star:
 	  /* nothing */
