@@ -32,8 +32,9 @@ int main (int argc, char *argv[])
 Fluent * new_Fluent ()
 {
 	Fluent * node = (Fluent *) calloc (1, sizeof(Fluent) + 1);
-	node->var = NULL;
-	node->obj = NULL;
+	node->var = (char *) malloc (sizeof(char) + 1);
+	//I don't need to malloc this because id list already has memory
+	//node->obj = (ID_List *) malloc (sizeof(ID_List) + 1);
 	node->next = NULL;
 
 	return node;

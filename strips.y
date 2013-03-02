@@ -78,16 +78,28 @@ delete_effects:
 
 fluent:
 	'(' IDENTIFIER_TK id_star ')'			{ $$ = new_Fluent();
-							  $$->var = malloc (sizeof(char) + 1);
 							  strcpy($$->var, $2);
-							  $$->obj = malloc (sizeof(ID_List)+1);
 							  $$->obj = $3; 
-							  $$->next = NULL;
-							  printf("id=%s\n",$2); };
+							  $$->next = NULL; //redundant
+
+							//testing
+							  Fluent * fl = $$;
+							  printf("%s (",fl->var);
+							  printf("%s",fl->obj->id);
+							  fl->obj = fl->obj->next;
+							  while(fl->obj->next)
+							  {
+							  	printf(", %s",fl->obj->id);
+								fl->obj = fl->obj->next;
+							  }
+							  printf(")\n");
+							  printf("next fluent is %s\n",fl->next->var);};
 
 fluent_list:
-	  fluent					{ $1->next = NULL; }
-	| fluent fluent_list				{ $1->next = $2; }
+	  fluent					{ $$ = $1;
+	  						  $1->next = NULL; }
+	| fluent fluent_list				{ $$ = $1;
+							  $1->next = $2; }
 	;
 
 id_star:
@@ -98,7 +110,7 @@ id_star:
 	| IDENTIFIER_TK	id_star				{ $$ = malloc (sizeof(ID_List));;
 							  $$->id = malloc(strlen ($1) + 1);
 							  strcpy($$->id, $1);
-							  $$->next = $2; }
+							  $$->next = $2;;}
 							  
 	;
 
