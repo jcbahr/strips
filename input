@@ -2,10 +2,10 @@
 	;; this is the initial state
         (initial
                 (on blockB table)
-                (on blockA table))
+                (off blockA table))
 	;; this is the goal state
         (goal
-                (on blockA blockB)
+                (elephant blockA blockB)
                 (on blockB table))
 	;; these are actions
         (actions

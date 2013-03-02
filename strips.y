@@ -27,15 +27,6 @@ void yyerror(const char *s);
 %token DEL_EFFECTS_TK
 %token EOF_TK 0 "end of file"
 
-%token PLUS
-%token MINUS
-%token TIMES
-%token DIVIDE
-
-%token AND_TK
-%token OR_TK
-%token NOT_TK 
-
 %token <sval> IDENTIFIER_TK
 %token <sval> VARIABLE_TK
 
@@ -51,13 +42,9 @@ start:
 	    					  strcpy(problem_name, $3); };
 
 
-/********** INITIAL **********/
-
 initial:
 	'(' INITIAL_TK fluent_list ')'		{ };
 
-
-/********** GOAL **********/
 
 goal:
 	'(' GOAL_TK fluent_list ')'		{  };
@@ -77,7 +64,6 @@ action:
 	'(' IDENTIFIER_TK parameters
 	    preconditions effects delete_effects ')'		{  };
 
-
 parameters:
 	'(' PARAMETERS_TK var_star ')';
 
@@ -91,23 +77,26 @@ delete_effects:
 	  '(' DEL_EFFECTS_TK var_list ')'		{  };
 
 fluent:
-	'(' IDENTIFIER_TK id_star ')'			{ Fluent * fluent;
-							  fluent->var = malloc (strlen ($2) +1);
-							  strcpy(fluent->var, $2);
-							  fluent->obj = $3; 
-							  fluent->next = NULL; };
+	'(' IDENTIFIER_TK id_star ')'			{ $$ = new_Fluent();
+							  $$->var = malloc (sizeof(char) + 1);
+							  strcpy($$->var, $2);
+							  $$->obj = malloc (sizeof(ID_List)+1);
+							  $$->obj = $3; 
+							  $$->next = NULL;
+							  printf("id=%s\n",$2); };
 
 fluent_list:
-	  fluent					{  }
-	| fluent fluent_list				{  }
+	  fluent					{ $1->next = NULL; }
+	| fluent fluent_list				{ $1->next = $2; }
 	;
 
 id_star:
-	  /* nothing */					{ $$ = malloc (sizeof(ID_List));
+	  /* nothing */					{ $$ = malloc (sizeof(ID_List)+1);
 	  						  $$->id = NULL;
 							  $$->next = NULL; }
 
 	| IDENTIFIER_TK	id_star				{ $$ = malloc (sizeof(ID_List));;
+							  $$->id = malloc(strlen ($1) + 1);
 							  strcpy($$->id, $1);
 							  $$->next = $2; }
 							  

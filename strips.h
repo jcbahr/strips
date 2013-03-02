@@ -8,6 +8,13 @@ extern FILE *yyin;
 
 extern char * problem_name;
 
+typedef struct ID_List_
+{
+	char * id;
+	struct ID_List_ *next;
+
+} ID_List;
+
 typedef struct Fluent_
 {
 	char * var;
@@ -15,10 +22,6 @@ typedef struct Fluent_
 	struct Fluent_ *next;
 } Fluent;
 
-typedef struct ID_List_
-{
-	char * id;
-	struct ID_List_ *next;
 
-} ID_List;
+Fluent * new_Fluent();
 

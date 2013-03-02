@@ -29,12 +29,12 @@ int main (int argc, char *argv[])
 	printf("Problem %s found.\n",problem_name);
 }
 
-/*Fluent * new_Fluent_node()
+Fluent * new_Fluent ()
 {
-	Fluent *node = ( Fluent * ) malloc( sizeof( Fluent));
-	node.var = NULL;
-	node.char = NULL;
-	node.next = NULL;
+	Fluent * node = (Fluent *) calloc (1, sizeof(Fluent) + 1);
+	node->var = NULL;
+	node->obj = NULL;
+	node->next = NULL;
 
 	return node;
-}*/
+}
