@@ -19,10 +19,25 @@ typedef struct ID_List_
 
 typedef struct Fluent_
 {
-	char * var;
+	char * name;
 	struct ID_List_ * obj;
 	struct Fluent_ *next;
 } Fluent;
+
+
+typedef struct Var_List_
+{
+	char * var;
+	struct Var_List_ *next;
+
+} Var_List;
+
+typedef struct Function_
+{
+	char * name;
+	struct Var_List_ * obj;
+	struct Function_ *next;
+} Function;
 
 
 /**** GLOBAL VARS ****/
@@ -33,3 +48,6 @@ extern Fluent * goal_state;
 
 /**** FUNCTIONS ****/
 Fluent * new_Fluent();
+ID_List * new_ID_List();
+Var_List * new_Var_List();
+Function * new_Function();

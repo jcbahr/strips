@@ -30,41 +30,28 @@ int main (int argc, char *argv[])
 	}
 	printf("\nProblem '%s' found.\n",problem_name);
 
-	// Print init state
-	printf("\nInit:\n");
-	while(init_state)
-	{
-		printf("Function '%s'",init_state->var);
-		if(init_state->obj)
-		{
-			printf(" with objects '%s'",init_state->obj->id);
-		}
-		init_state->obj = init_state->obj->next;
-		while(init_state->obj->id)
-		{
-			printf(", '%s'",init_state->obj->id);
-			init_state->obj = init_state->obj->next;
-		}
-		printf("\n");
-		init_state = init_state->next;
-	}
+	print_state("INIT",init_state);
+	print_state("GOAL",goal_state);
+}
 
-	printf("\nGoal:\n");
-	while(goal_state)
+int print_state (char * name, Fluent * state)
+{
+	printf("\n%s:\n",name);
+	while(state)
 	{
-		printf("Function '%s'",goal_state->var);
-		if(goal_state->obj)
+		printf("Function '%s'",state->name);
+		if(state->obj)
 		{
-			printf(" with objects '%s'",goal_state->obj->id);
+			printf(" with objects '%s'",state->obj->id);
 		}
-		goal_state->obj = goal_state->obj->next;
-		while(goal_state->obj->id)
+		state->obj = state->obj->next;
+		while(state->obj->id)
 		{
-			printf(", '%s'",goal_state->obj->id);
-			goal_state->obj = goal_state->obj->next;
+			printf(", '%s'",state->obj->id);
+			state->obj = state->obj->next;
 		}
 		printf("\n");
-		goal_state = goal_state->next;
+		state = state->next;
 	}
 	
 }
@@ -72,9 +59,37 @@ int main (int argc, char *argv[])
 Fluent * new_Fluent ()
 {
 	Fluent * node = (Fluent *) calloc (1, sizeof(Fluent) + 1);
+	node->name = (char *) malloc (sizeof(char) + 1);
+	// I don't need to malloc obj because id list already has memory
+	node->next = NULL;
+
+	return node;
+}
+
+
+ID_List * new_ID_List ()
+{
+	ID_List * node = (ID_List *) calloc (1, sizeof(ID_List) + 1);
+	node->id = (char *) malloc (sizeof(char) + 1);
+	node->next = NULL;
+
+	return node;
+}
+
+Function * new_Function ()
+{
+	Function * node = (Function *) calloc (1, sizeof(Function) + 1);
+	node->name = (char *) malloc (sizeof(char) + 1);
+	// I don't need to malloc obj because var list already has memory
+	node->next = NULL;
+
+	return node;
+}
+
+Var_List * new_Var_List ()
+{
+	Var_List * node = (Var_List *) calloc (1, sizeof(Var_List) + 1);
 	node->var = (char *) malloc (sizeof(char) + 1);
-	//I don't need to malloc this because id list already has memory
-	//node->obj = (ID_List *) malloc (sizeof(ID_List) + 1);
 	node->next = NULL;
 
 	return node;

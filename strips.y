@@ -15,6 +15,8 @@ void yyerror(const char *s);
 	char *sval;
 	Fluent *fluentval;
 	ID_List *idval;
+	Var_List *varval;
+	Function *funcval;
 }
 
 %token START_TK
@@ -32,6 +34,8 @@ void yyerror(const char *s);
 
 %type <fluentval> fluent
 %type <idval> id_star
+%type <varval> var_star
+%type <funcval> function_plus
 
 %%
 
@@ -53,56 +57,34 @@ goal:
 /********** ACTIONS **********/
 
 actions:
-	'(' ACTIONS_TK action_plus ')'		{  };
+	'(' ACTIONS_TK action_list ')'		{  };
 
-action_plus:
-	  action				{  }
-	| action_plus action			{  }
-	;
-
-action:
-	'(' IDENTIFIER_TK parameters
-	    preconditions effects delete_effects ')'		{  };
+action_list:
+	  '(' IDENTIFIER_TK parameters preconditions effects delete_effects ')'			{ }
+	| '(' IDENTIFIER_TK parameters preconditions effects delete_effects ')' action_list	{ };
 
 parameters:
 	'(' PARAMETERS_TK var_star ')';
 
 preconditions:
-	'(' PRECONDITIONS_TK var_list ')'		{  };
+	'(' PRECONDITIONS_TK function_plus ')'		{  };
 
 effects:
-	  '(' EFFECTS_TK var_list ')'			{  };
+	  '(' EFFECTS_TK function_plus ')'			{  };
 
 delete_effects:
-	  '(' DEL_EFFECTS_TK var_list ')'		{  };
+	  '(' DEL_EFFECTS_TK function_plus ')'		{  };
 
 fluent:
 	  '(' IDENTIFIER_TK id_star ')'			{ $$ = new_Fluent();
-							  strcpy($$->var, $2);
+							  strcpy($$->name, $2);
 							  $$->obj = $3; 
-							  $$->next = NULL;
-							 }
+							  $$->next = NULL; }
 
 	| '(' IDENTIFIER_TK id_star ')'	fluent		{ $$ = new_Fluent();
-							  strcpy($$->var, $2);
+							  strcpy($$->name, $2);
 							  $$->obj = $3;
-							  $$->next = $5;
-							  
-							//testing
-							/*
-							  Fluent * fl = $$;
-							  printf("%s (",fl->var);
-							  printf("%s",fl->obj->id);
-							  fl->obj = fl->obj->next;
-							  while(fl->obj->next)
-							  {
-							  	printf(", %s",fl->obj->id);
-								fl->obj = fl->obj->next;
-							  }
-							  printf(")\n");
-							  printf("next fluent is %s\n",fl->next->var);
-							*/
-							  };
+							  $$->next = $5; };
 
 id_star:
 	  /* nothing */					{ $$ = malloc (sizeof(ID_List) + 1);
@@ -116,12 +98,24 @@ id_star:
 							  
 	;
 
-var_list:
-	  '(' IDENTIFIER_TK var_star ')';
+function_plus:
+	  '(' IDENTIFIER_TK var_star ')'		{ $$ = new_Function();
+	  						  strcpy($$->name, $2);
+							  $$->obj = $3;
+							  $$->next = NULL; }
+
+	| '(' IDENTIFIER_TK var_star ')' function_plus	{ $$ = new_Function();
+							  strcpy($$->name, $2);
+							  $$->obj = $3;
+							  $$->next = $5; };
 
 var_star:
-	  /* nothing */
-	| var_star VARIABLE_TK
+	  /* nothing */					{ $$ = new_Var_List();
+	  						  $$->var = NULL; }
+
+	| var_star VARIABLE_TK				{ $$ = new_Var_List();
+							  $$->var = $2;
+							  $$->next = $1; }
 	;
 
 
