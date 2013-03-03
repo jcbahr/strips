@@ -43,11 +43,11 @@ start:
 
 
 initial:
-	'(' INITIAL_TK fluent ')'		{ };
+	'(' INITIAL_TK fluent ')'		{ init_state = $3; };
 
 
 goal:
-	'(' GOAL_TK fluent ')'		{  };
+	'(' GOAL_TK fluent ')'			{ goal_state = $3; };
 
 
 /********** ACTIONS **********/
@@ -89,7 +89,8 @@ fluent:
 							  $$->next = $5;
 							  
 							//testing
-							/* Fluent * fl = $$;
+							/*
+							  Fluent * fl = $$;
 							  printf("%s (",fl->var);
 							  printf("%s",fl->obj->id);
 							  fl->obj = fl->obj->next;

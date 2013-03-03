@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+/**** PARSING ****/
 extern int yylex();
 extern int yyparse();
 extern FILE *yyin;
 
-extern char * problem_name;
 
+/**** STRUCTS ****/
 typedef struct ID_List_
 {
 	char * id;
@@ -23,5 +25,11 @@ typedef struct Fluent_
 } Fluent;
 
 
-Fluent * new_Fluent();
+/**** GLOBAL VARS ****/
+extern char * problem_name;
+extern Fluent * init_state;
+extern Fluent * goal_state;
 
+
+/**** FUNCTIONS ****/
+Fluent * new_Fluent();
