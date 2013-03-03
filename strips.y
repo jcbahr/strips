@@ -30,7 +30,7 @@ void yyerror(const char *s);
 %token <sval> IDENTIFIER_TK
 %token <sval> VARIABLE_TK
 
-%type <fluentval> fluent fluent_list
+%type <fluentval> fluent
 %type <idval> id_star
 
 %%
@@ -43,11 +43,11 @@ start:
 
 
 initial:
-	'(' INITIAL_TK fluent_list ')'		{ };
+	'(' INITIAL_TK fluent ')'		{ };
 
 
 goal:
-	'(' GOAL_TK fluent_list ')'		{  };
+	'(' GOAL_TK fluent ')'		{  };
 
 
 /********** ACTIONS **********/
@@ -77,13 +77,19 @@ delete_effects:
 	  '(' DEL_EFFECTS_TK var_list ')'		{  };
 
 fluent:
-	'(' IDENTIFIER_TK id_star ')'			{ $$ = new_Fluent();
+	  '(' IDENTIFIER_TK id_star ')'			{ $$ = new_Fluent();
 							  strcpy($$->var, $2);
 							  $$->obj = $3; 
-							  $$->next = NULL; //redundant
+							  $$->next = NULL;
+							 }
 
+	| '(' IDENTIFIER_TK id_star ')'	fluent		{ $$ = new_Fluent();
+							  strcpy($$->var, $2);
+							  $$->obj = $3;
+							  $$->next = $5;
+							  
 							//testing
-							  Fluent * fl = $$;
+							/* Fluent * fl = $$;
 							  printf("%s (",fl->var);
 							  printf("%s",fl->obj->id);
 							  fl->obj = fl->obj->next;
@@ -93,16 +99,12 @@ fluent:
 								fl->obj = fl->obj->next;
 							  }
 							  printf(")\n");
-							 // printf("next fluent is %s\n",fl->next->var);
-							 };
-
-fluent_list:
-	  fluent					{ $1->next = NULL; }
-	| fluent fluent_list				{ $1->next = $2; }
-	;
+							  printf("next fluent is %s\n",fl->next->var);
+							*/
+							  };
 
 id_star:
-	  /* nothing */					{ $$ = malloc (sizeof(ID_List)+1);
+	  /* nothing */					{ $$ = malloc (sizeof(ID_List) + 1);
 	  						  $$->id = NULL;
 							  $$->next = NULL; }
 
