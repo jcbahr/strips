@@ -17,6 +17,7 @@ void yyerror(const char *s);
 	ID_List *idval;
 	Var_List *varval;
 	Function *funcval;
+	Action *actval;
 }
 
 %token START_TK
@@ -34,8 +35,9 @@ void yyerror(const char *s);
 
 %type <fluentval> fluent
 %type <idval> id_star
-%type <varval> var_star
-%type <funcval> function_plus
+%type <varval> var_star parameters
+%type <funcval> function_plus preconditions effects delete_effects
+%type <actval> action_list
 
 %%
 
@@ -60,20 +62,36 @@ actions:
 	'(' ACTIONS_TK action_list ')'		{  };
 
 action_list:
-	  '(' IDENTIFIER_TK parameters preconditions effects delete_effects ')'			{ }
-	| '(' IDENTIFIER_TK parameters preconditions effects delete_effects ')' action_list	{ };
+	  '(' IDENTIFIER_TK parameters preconditions
+	      effects delete_effects ')'
+	      						{ $$ = new_Action();
+	  						  strcpy($$->name, $2);
+							  $$->param = $3;
+							  $$->pre = $4;
+							  $$->add = $5;
+							  $$->del = $6;
+							  $$->next = NULL; }
+
+	| '(' IDENTIFIER_TK parameters preconditions
+	      effects delete_effects ')' action_list	{ $$ = new_Action();
+	      						  strcpy($$->name, $2);
+							  $$->param = $3;
+							  $$->pre = $4;
+							  $$->add = $5;
+							  $$->del = $6;
+							  $$->next = $8; };
 
 parameters:
-	'(' PARAMETERS_TK var_star ')';
+	'(' PARAMETERS_TK var_star ')'			{ $$ = $3; };
 
 preconditions:
-	'(' PRECONDITIONS_TK function_plus ')'		{  };
+	'(' PRECONDITIONS_TK function_plus ')'		{ $$ = $3; };
 
 effects:
-	  '(' EFFECTS_TK function_plus ')'		{  };
+	  '(' EFFECTS_TK function_plus ')'		{ $$ = $3; };
 
 delete_effects:
-	  '(' DEL_EFFECTS_TK function_plus ')'		{  };
+	  '(' DEL_EFFECTS_TK function_plus ')'		{ $$ = $3; };
 
 fluent:
 	  '(' IDENTIFIER_TK id_star ')'			{ $$ = new_Fluent();

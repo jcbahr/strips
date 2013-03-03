@@ -31,7 +31,8 @@ int main (int argc, char *argv[])
 	{
 		yyparse();
 	}
-	printf("\nProblem '%s' found.\n",problem_name);
+	fclose(filepointer);
+
 
 	print_state("INIT",init_state);
 	print_state("GOAL",goal_state);
@@ -60,41 +61,3 @@ int print_state (char * name, Fluent * state)
 }
 
 
-Fluent * new_Fluent ()
-{
-	Fluent * node = (Fluent *) calloc (1, sizeof(Fluent) + 1);
-	node->name = (char *) malloc (sizeof(char) + 1);
-	// I don't need to malloc obj because id list already has memory
-	node->next = NULL;
-
-	return node;
-}
-
-
-ID_List * new_ID_List ()
-{
-	ID_List * node = (ID_List *) calloc (1, sizeof(ID_List) + 1);
-	node->id = (char *) malloc (sizeof(char) + 1);
-	node->next = NULL;
-
-	return node;
-}
-
-Function * new_Function ()
-{
-	Function * node = (Function *) calloc (1, sizeof(Function) + 1);
-	node->name = (char *) malloc (sizeof(char) + 1);
-	// I don't need to malloc obj because var list already has memory
-	node->next = NULL;
-
-	return node;
-}
-
-Var_List * new_Var_List ()
-{
-	Var_List * node = (Var_List *) calloc (1, sizeof(Var_List) + 1);
-	node->var = (char *) malloc (sizeof(char) + 1);
-	node->next = NULL;
-
-	return node;
-}

@@ -45,6 +45,7 @@ typedef struct Action_
 	struct Function_ *add;
 	struct Function_ *del;
 	struct Function_ *pre;
+	struct Var_List_ *param;
 	struct Action_ *next;
 } Action;
 
@@ -60,3 +61,4 @@ Fluent * new_Fluent();
 ID_List * new_ID_List();
 Var_List * new_Var_List();
 Function * new_Function();
+Action * new_Action();
