@@ -2,6 +2,9 @@
 char * problem_name;
 Fluent * init_state;
 Fluent * goal_state;
+Function * add_effects; 
+Function * del_effects;
+Function * preconditions;
 
 int main (int argc, char *argv[])
 {
@@ -32,6 +35,10 @@ int main (int argc, char *argv[])
 
 	print_state("INIT",init_state);
 	print_state("GOAL",goal_state);
+
+	print_function("precond",preconditions);
+	print_function("add",add_effects);
+	print_function("de",del_effects);
 }
 
 int print_state (char * name, Fluent * state)
@@ -39,7 +46,7 @@ int print_state (char * name, Fluent * state)
 	printf("\n%s:\n",name);
 	while(state)
 	{
-		printf("Function '%s'",state->name);
+		printf("Fluent '%s'",state->name);
 		if(state->obj)
 		{
 			printf(" with objects '%s'",state->obj->id);
@@ -54,6 +61,27 @@ int print_state (char * name, Fluent * state)
 		state = state->next;
 	}
 	
+}
+
+int print_function (char * name, Function * func)
+{
+	printf("\n%s:\n",name);
+	while(func)
+	{
+		printf("Function '%s'",func->name);
+		if(func->obj)
+		{
+			printf(" with objects '%s'",func->obj->var);
+		}
+		func->obj = func->obj->next;
+		while(func->obj->var)
+		{
+			printf(", '%s'",func->obj->var);
+			func->obj = func->obj->next;
+		}
+		printf("\n");
+		func = func->next;
+	}
 }
 
 Fluent * new_Fluent ()

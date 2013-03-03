@@ -44,6 +44,9 @@ typedef struct Function_
 extern char * problem_name;
 extern Fluent * init_state;
 extern Fluent * goal_state;
+extern Function * add_effects;
+extern Function * del_effects;
+extern Function * preconditions;
 
 
 /**** FUNCTIONS ****/

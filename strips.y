@@ -67,13 +67,13 @@ parameters:
 	'(' PARAMETERS_TK var_star ')';
 
 preconditions:
-	'(' PRECONDITIONS_TK function_plus ')'		{  };
+	'(' PRECONDITIONS_TK function_plus ')'		{ preconditions = $3; };
 
 effects:
-	  '(' EFFECTS_TK function_plus ')'			{  };
+	  '(' EFFECTS_TK function_plus ')'		{ add_effects = $3; };
 
 delete_effects:
-	  '(' DEL_EFFECTS_TK function_plus ')'		{  };
+	  '(' DEL_EFFECTS_TK function_plus ')'		{ del_effects = $3; };
 
 fluent:
 	  '(' IDENTIFIER_TK id_star ')'			{ $$ = new_Fluent();
