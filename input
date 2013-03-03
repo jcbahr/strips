@@ -1,4 +1,4 @@
-(start blockworld
+(start blockworld ; this is a comment
 	;; this is the initial state
         (initial
                 (on blockB table)

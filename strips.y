@@ -93,13 +93,12 @@ fluent:
 								fl->obj = fl->obj->next;
 							  }
 							  printf(")\n");
-							  printf("next fluent is %s\n",fl->next->var);};
+							 // printf("next fluent is %s\n",fl->next->var);
+							 };
 
 fluent_list:
-	  fluent					{ $$ = $1;
-	  						  $1->next = NULL; }
-	| fluent fluent_list				{ $$ = $1;
-							  $1->next = $2; }
+	  fluent					{ $1->next = NULL; }
+	| fluent fluent_list				{ $1->next = $2; }
 	;
 
 id_star:
