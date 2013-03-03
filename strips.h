@@ -39,14 +39,20 @@ typedef struct Function_
 	struct Function_ *next;
 } Function;
 
+typedef struct Action_
+{
+	char * name;
+	struct Function_ *add;
+	struct Function_ *del;
+	struct Function_ *pre;
+	struct Action_ *next;
+} Action;
+
 
 /**** GLOBAL VARS ****/
 extern char * problem_name;
 extern Fluent * init_state;
 extern Fluent * goal_state;
-extern Function * add_effects;
-extern Function * del_effects;
-extern Function * preconditions;
 
 
 /**** FUNCTIONS ****/

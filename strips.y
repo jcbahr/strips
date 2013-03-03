@@ -67,13 +67,13 @@ parameters:
 	'(' PARAMETERS_TK var_star ')';
 
 preconditions:
-	'(' PRECONDITIONS_TK function_plus ')'		{ preconditions = $3; };
+	'(' PRECONDITIONS_TK function_plus ')'		{  };
 
 effects:
-	  '(' EFFECTS_TK function_plus ')'		{ add_effects = $3; };
+	  '(' EFFECTS_TK function_plus ')'		{  };
 
 delete_effects:
-	  '(' DEL_EFFECTS_TK function_plus ')'		{ del_effects = $3; };
+	  '(' DEL_EFFECTS_TK function_plus ')'		{  };
 
 fluent:
 	  '(' IDENTIFIER_TK id_star ')'			{ $$ = new_Fluent();
@@ -87,12 +87,10 @@ fluent:
 							  $$->next = $5; };
 
 id_star:
-	  /* nothing */					{ $$ = malloc (sizeof(ID_List) + 1);
-	  						  $$->id = NULL;
-							  $$->next = NULL; }
+	  /* nothing */					{ $$ = new_ID_List();
+	  						  $$->id = NULL; }
 
-	| IDENTIFIER_TK	id_star				{ $$ = malloc (sizeof(ID_List));;
-							  $$->id = malloc(strlen ($1) + 1);
+	| IDENTIFIER_TK	id_star				{ $$ = new_ID_List();
 							  strcpy($$->id, $1);
 							  $$->next = $2;;}
 							  
