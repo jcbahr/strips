@@ -3,6 +3,31 @@ set of goal state
 list for plan
 stack for set of nodes
 
+
+program name
+============
+STRIPS C planner using Bison and Flex
+
+SCUBA is a good name
+STRIPS
+C
+but it's been used and isn't google-able
+
+STRIPS planner with bison and flex in c
+spwbafic
+no
+
+STRIPS algorithm with lisp-y input
+sawli - maybe
+
+STRIPS Planner with a LISP style input
+spwalsi
+spalsi - sounds stupid
+spali - no
+
+
+
+
 Do I want these structs as types in yylval?
 I think so
 
@@ -16,6 +41,15 @@ typedef struct fluent:
 	char ** obj
 
 	
+
+
+
+I want a loop
+	print name
+	does next exist?
+		continue
+	else
+		stop
 
 
 

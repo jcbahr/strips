@@ -1,3 +1,22 @@
+
+
+
+/*
+ *	This file is part of SAWLI (STRIPS Algorithm With Lisp-like Input)
+ *	
+ *	SAWLI is free software: you can redistribute it and/or modify it under
+ *	the terms of the GNU General Public License as published by the Free
+ *	Software Foundation, either version 3 of the License, or (at your
+ *	option) any later version.  SAWLI is distributed in the hope that it
+ *	will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ *	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+ *	the GNU General Public License for more details.  You should have
+ *	received a copy of the GNU General Public License along with SAWLI.  If
+ *	not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
 #include "strips.h"
 char * problem_name;
 Fluent * init_state;
@@ -35,10 +54,9 @@ int main (int argc, char *argv[])
 	fclose(filepointer);
 
 
-	print_fluent("INIT",init_state);
-	print_fluent("GOAL",goal_state);
-
-	print_actions();
+//	print_fluent("INIT",init_state);
+//	print_fluent("GOAL",goal_state);
+//	print_actions(actions);
 }
 
 int print_fluent (char * name, Fluent * state)
@@ -85,29 +103,33 @@ int print_function (char * name, Function * func)
 	}
 }
 
+int print_var_list (char * name, Var_List * param)
+{
+	if(param)
+	{
+		printf("%s: '%s'",name,param->var);
+	}
+	param = param->next;
+	while (param->var)
+	{
+		printf(", '%s'",param->var);
+		param = param->next;
+	}
+	printf("\n");
+}
 
 int print_actions (Action * actions)
 {
-	while(actions->next)
+	printf("\n\nACTION %s:\n",actions->name);
+	print_var_list("Parameters",actions->param);
+	print_function("Preconditions",actions->pre);
+	print_function("Add effects",actions->add);
+	print_function("Delete effects",actions->del);
+	while (actions->next)
 	{
-		printf("\n%s:\n",actions->name);
-/*
-		if(actions->param)
-		{
-			printf(" with parameters '%s'",actions->param->var);
-		}
-		actions->param = actions->param->next;
-		while(actions->param->var)
-		{
-			printf(", '%s'",actions->param->var);
-			actions->param = actions->param->next;
-		}
-		printf("\n");
-*/
-//		print_function("Preconditions",actions->pre);
-//		print_function("Add effects",actions->add);
-//		print_function("Delete effects",actions->del);
-
 		actions = actions->next;
+		print_function("Preconditions",actions->pre);
+		print_function("Add effects",actions->add);
+		print_function("Delete effects",actions->del);
 	}
 }
