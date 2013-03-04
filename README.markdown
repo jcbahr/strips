@@ -1,5 +1,5 @@
-SAWLI (STRIPS Algorithm With LISP-like Input)
-============================================
+STRIPS Planner in C
+===================
 
 Currently unusable
 
