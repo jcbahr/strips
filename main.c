@@ -5,6 +5,7 @@ Fluent * goal_state;
 Function * add_effects; 
 Function * del_effects;
 Function * preconditions;
+Action * actions;
 
 int main (int argc, char *argv[])
 {
@@ -27,18 +28,20 @@ int main (int argc, char *argv[])
         }
 
 	yyin = filepointer;
-	while (!feof(yyin)) //not the file's EOF
+	while (!feof(yyin))
 	{
 		yyparse();
 	}
 	fclose(filepointer);
 
 
-	print_state("INIT",init_state);
-	print_state("GOAL",goal_state);
+	print_fluent("INIT",init_state);
+	print_fluent("GOAL",goal_state);
+
+	print_actions();
 }
 
-int print_state (char * name, Fluent * state)
+int print_fluent (char * name, Fluent * state)
 {
 	printf("\n%s:\n",name);
 	while(state)
@@ -61,3 +64,50 @@ int print_state (char * name, Fluent * state)
 }
 
 
+int print_function (char * name, Function * func)
+{
+	printf("\n%s:\n",name);
+	while(func)
+	{
+		printf("Function '%s'",func->name);
+		if(func->obj)
+		{
+			printf(" with objects '%s'",func->obj->var);
+		}
+		func->obj = func->obj->next;
+		while(func->obj->var)
+		{
+			printf(", '%s'",func->obj->var);
+			func->obj = func->obj->next;
+		}
+		printf("\n");
+		func = func->next;
+	}
+}
+
+
+int print_actions (Action * actions)
+{
+	while(actions->next)
+	{
+		printf("\n%s:\n",actions->name);
+/*
+		if(actions->param)
+		{
+			printf(" with parameters '%s'",actions->param->var);
+		}
+		actions->param = actions->param->next;
+		while(actions->param->var)
+		{
+			printf(", '%s'",actions->param->var);
+			actions->param = actions->param->next;
+		}
+		printf("\n");
+*/
+//		print_function("Preconditions",actions->pre);
+//		print_function("Add effects",actions->add);
+//		print_function("Delete effects",actions->del);
+
+		actions = actions->next;
+	}
+}

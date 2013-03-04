@@ -54,7 +54,7 @@ typedef struct Action_
 extern char * problem_name;
 extern Fluent * init_state;
 extern Fluent * goal_state;
-
+extern Action * actions;
 
 /**** FUNCTIONS ****/
 Fluent * new_Fluent();

@@ -59,7 +59,7 @@ goal:
 /********** ACTIONS **********/
 
 actions:
-	'(' ACTIONS_TK action_list ')'		{  };
+	'(' ACTIONS_TK action_list ')'		{ actions = $3; };
 
 action_list:
 	  '(' IDENTIFIER_TK parameters preconditions
