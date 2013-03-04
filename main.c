@@ -2,6 +2,8 @@
 
 
 /*
+ *	Copyright 2013 (C) Jackson Bahr
+ *
  *	This file is part of SAWLI (STRIPS Algorithm With Lisp-like Input)
  *	
  *	SAWLI is free software: you can redistribute it and/or modify it under
