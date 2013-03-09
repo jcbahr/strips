@@ -40,11 +40,10 @@ typedef struct ID_List_
 
 typedef struct Fluent_
 {
-	char * name;
-	struct ID_List_ * obj;
-	struct Fluent_ *next;
+    char * name;
+    struct ID_List_ * obj;
+    struct Fluent_ *next;
 } Fluent;
-
 
 typedef struct Var_List_
 {
@@ -70,6 +69,25 @@ typedef struct Action_
 	struct Action_ *next;
 } Action;
 
+typedef struct Plan_
+{
+	char * action;
+	struct ID_List_ * obj;
+} Plan;
+
+typedef union Stack_Element_
+{
+	char * operator;
+	struct Fluent_ goals;
+} Stack_Element;
+
+typedef struct Stack_
+{
+	char * type;	// type will be "operator", "multi", or "single"
+	union Stack_Element_ * element;
+	struct Stack_ * next;
+	struct Stack_ * prev;
+} Stack;
 
 /**** GLOBAL VARS ****/
 extern char * problem_name;
@@ -77,9 +95,17 @@ extern Fluent * init_state;
 extern Fluent * goal_state;
 extern Action * actions;
 
-/**** FUNCTIONS ****/
+/**** MEM FUNCTIONS ****/
 Fluent * new_Fluent();
 ID_List * new_ID_List();
 Var_List * new_Var_List();
 Function * new_Function();
 Action * new_Action();
+Plan * new_Plan();
+Stack * new_Stack();
+Stack_Element * new_Stack_Element();
+
+/**** OTHER FUNCTIONS ****/
+Plan * strips_loop();
+Stack * pop();
+Stack * push();

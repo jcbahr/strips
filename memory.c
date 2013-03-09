@@ -28,7 +28,6 @@ Fluent * new_Fluent ()
 	node->name = (char *) malloc (sizeof(char) + 1);
 	// I don't need to malloc obj because id list already has memory
 	node->next = NULL;
-
 	return node;
 }
 
@@ -37,7 +36,6 @@ ID_List * new_ID_List ()
 	ID_List * node = (ID_List *) calloc (1, sizeof(ID_List) + 1);
 	node->id = (char *) malloc (sizeof(char) + 1);
 	node->next = NULL;
-
 	return node;
 }
 
@@ -45,9 +43,7 @@ Function * new_Function ()
 {
 	Function * node = (Function *) calloc (1, sizeof(Function) + 1);
 	node->name = (char *) malloc (sizeof(char) + 1);
-	// I don't need to malloc obj because var list already has memory
 	node->next = NULL;
-
 	return node;
 }
 
@@ -56,7 +52,6 @@ Var_List * new_Var_List ()
 	Var_List * node = (Var_List *) calloc (1, sizeof(Var_List) + 1);
 	node->var = (char *) malloc (sizeof(char) + 1);
 	node->next = NULL;
-
 	return node;
 }
 
@@ -65,6 +60,24 @@ Action * new_Action ()
 	Action * act = (Action *) calloc (1, sizeof(Action) + 1);
 	act->name = (char *) malloc (sizeof(char) + 1);
 	act->next = NULL;
-
 	return act;
+}
+
+Stack * new_Stack ()
+{
+    Stack * stack = (Stack *) calloc (1, sizeof(Stack) + 1);
+    stack->type = (char *) malloc (sizeof(char) + 1);
+	return stack;
+}
+
+Stack_Element * new_Stack_Element ()
+{
+	Stack_Element * element = (Stack_Element *) calloc (1, sizeof(Stack_Element) + 1);
+}
+
+Plan * new_Plan ()
+{
+	Plan * plan = (Plan *) calloc (1, sizeof(Plan) + 1);
+	plan->action = (char *) malloc (sizeof(char) + 1);
+	return plan;
 }

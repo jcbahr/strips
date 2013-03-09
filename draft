@@ -1,7 +1,45 @@
+state = {start}
+plan = []
+stack = {goals}
+while stack not empty
+  switch t, popped off of stack
+    case (in set of goals)
+      yay! next one!
+    case (unstatisfied conjunctive goal)
+      select ordering for subgoals
+      push subgoals on to stack
+    case (simple unsatisfied goal)
+      choose operator that does it
+      push operator
+      push preconditions of the operator on to stack
+    case (operator)
+      state += add_list; state -= delete_list
+      plan += operator
+return plan
+
 set of start state
 set of goal state
 list for plan
 stack for set of nodes
+
+
+set of start state & goal state
+these are lists of fluents - "Fluent" struct
+
+ordered list for the plan
+list of actions - just requires the name of the function and the arguments
+so char * name, and ids
+
+stack for set of nodes
+need to give push, pop commands
+
+stack can have:
+	operator
+	multiple goals
+	single goal (satisfied or unsatisfied)
+
+
+
 
 
 program name
@@ -82,3 +120,65 @@ pop (have A) off of the stack
 is there an action that results in (have A)?
 (take (A, ?!?!)) does it				This is the variable instantiation problem
 
+
+
+
+(put B C)
+	pre		(clear C)
+	pre		(have B)
+	add		(on B C)
+	add		(clear B)
+	del		(clean C)
+	del		(have B)
+(put A B)
+	pre		(clear B)
+	pre		(have A)
+	add		(on A B)
+	add		(clear A)
+	del		(clear B)
+	del		(have A)
+
+
+(put B C)
+	pre		(clear C)
+	pre		(have B)
+	del		(clean C)
+	del		(have B)
+	add		(on B C)
+!	add		(clear B)
+(put A B)
+!	pre		(clear B)
+	pre		(have A)
+	add		(on A B)
+	add		(clear A)
+	del		(clear B)
+	del		(have A)
+
+ordered because more cancellations when (put B C) is first
+
+(put B C)
+	pre		(clear C)
+	pre		(have B)
+	del		(clean C)
+	del		(have B)
+	add		(on B C)
+(put A B)
+	pre		(have A)
+	add		(on A B)
+	add		(clear A)
+	del		(clear B)
+	del		(have A)
+
+
+(put B C)
+	pre		(clear C)
+	pre		(have B)
+	del		(clean C)
+	del		(have B)
+	add		(on B C)
+(put A B)
+	pre		(have A)
+	add		(on A B)
+	add		(clear A)
+	del		(clear B)
+	del		(have A)
