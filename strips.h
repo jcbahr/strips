@@ -83,7 +83,12 @@ typedef union Stack_Element_
 
 typedef struct Stack_
 {
-	char * type;	// type will be "operator", "multi", or "single"
+	int * type;
+	/*
+	 * 1 - the stack element is an operator
+	 * 2 - conjunctive goal
+	 * 3 - simple goal
+	 */
 	union Stack_Element_ * element;
 	struct Stack_ * next;
 	struct Stack_ * prev;

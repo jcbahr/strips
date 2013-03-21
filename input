@@ -1,20 +1,37 @@
 (start blockworld ; this is a comment
 	;; this is the initial state
         (initial
+                (on blockA blockB)
                 (on blockB table)
-                (off blockA table))
+				(on blockC table))
 	;; this is the goal state
         (goal
-                (elephant blockA blockB)
-                (on blockB table))
+                (on blockA blockB)
+                (on blockB blockC)
+				(on blockC table))
 	;; these are actions
         (actions
-                (move
-                        (parameters		; parameters to "move"
-                                ?x ?y ?z)
-                        (preconditions		; requirements for "move"
-                                (on ?x ?y))
-                        (effects		; add-effects of "move'
-                                (on ?x ?z))
-			(delete-effects		; delete-effects of "move"
-				(on ?x ?y)))))
+                (take 						; take ?x from on top of ?y
+                        (parameters
+                                ?x ?y)
+                        (preconditions
+                                (on ?x ?y)  ; ?x is on ?y and 
+								(clear ?x)) ; has nothing on top of it
+                        (effects
+                                (have ?x)
+								(clear ?y))
+						(delete-effects
+								(on ?x ?y)
+								(clear ?x)))
+				(place						; place ?x on ?y
+						(parameters
+								?x ?y)
+						(preconditions
+								(have ?x)
+								(clear ?y))
+						(effects
+								(on ?x ?y)
+								(clear ?x))
+						(delete-effects
+								(have ?x)
+								(clear ?y)))))

@@ -66,7 +66,7 @@ Action * new_Action ()
 Stack * new_Stack ()
 {
     Stack * stack = (Stack *) calloc (1, sizeof(Stack) + 1);
-    stack->type = (char *) malloc (sizeof(char) + 1);
+    stack->type = (int *) malloc (sizeof(int) + 1);
 	return stack;
 }
 

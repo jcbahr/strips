@@ -43,62 +43,78 @@ int main (int argc, char *argv[])
     }
     filename = malloc (strlen (argv[1]) + 1);
     strcpy (filename, argv[1]);
-
-	FILE *filepointer = fopen (filename, "r");
+    FILE *filepointer = fopen (filename, "r");
     if (!filepointer)
     {
         printf ("Error: '%s' not found!\n", argv[1]);
         exit (EXIT_FAILURE);
     }
     yyin = filepointer;
-
-	while (!feof(yyin))
+    while (!feof(yyin))
     {
         yyparse();
     }
     fclose(filepointer);
-
-//	print_fluent("INIT",init_state);
-//	print_fluent("GOAL",goal_state);
+//	print_fluent("Initial state:",init_state);
+//	print_fluent("Goal state:",goal_state);
 //	print_actions(actions);
-
-	state = init_state;
-	plan = new_Plan();
-	stack = new_Stack();
-	strcpy(stack->type, "multi");
-
-	Plan * out_plan = strips_loop(state, plan, stack);
-
-//	print_plan
-
+    state = init_state;
+    plan = new_Plan();
+    stack = new_Stack();
+	*stack->type = 2;
+    Plan * plan_out = strips_loop(state, plan, stack);
+//	print plan
 }
 
 Plan * strips_loop (Fluent * state, Plan * plan, Stack * stack)
 {
-	Stack_Element * top = new_Stack_Element();
-	for( ; stack = stack->next ; stack->next)
-	{
-		top = stack->element;
-		stack = pop(stack);
-	}
-	return plan;
-
-
+    Stack_Element * top = new_Stack_Element();
+    for ( ; stack = stack->next; stack->next)
+    {
+        top = stack->element;
+		switch(*stack->type)
+		{
+			case 1:			// operator
+				//state += add list
+				//state -= del list
+				//plan += operator
+				break;
+			case 2:			// conjunctive goal
+				//select ordering for subgoals
+				//push back on to stack
+				break;
+			case 3:			// simple goal
+				//in current state
+				//or unsatisfied
+				break;
+		}
+    }
+    return plan;
 }
 
 Stack * pop (Stack * stack)
 {
-	stack = stack->next;
-	stack->prev = NULL;
-	return stack;
+    stack = stack->next;
+    stack->prev = NULL;
+    return stack;
 }
 
 Stack * push (Stack_Element * element, char * type, Stack * stack)
 {
-	Stack * top = new_Stack();
-	strcpy(top->type, type);
-	top->next = stack;
-	top->prev = NULL;
+    Stack * top = new_Stack();
+    *type = *top->type;
+    top->next = stack;
+    top->prev = NULL;
+}
+
+// function for adding fluents to state
+
+
+// function for removing fluents from state
+
+Fluent * remove_Fluent(Fluent * state, Fluent * delete)
+{
+
 }
 
 int print_fluent (char * name, Fluent * state)
@@ -169,6 +185,8 @@ int print_actions (Action * actions)
     while (actions->next)
     {
         actions = actions->next;
+        printf("\n\nACTION %s:\n", actions->name);
+        print_var_list("Parameters", actions->param);
         print_function("Preconditions", actions->pre);
         print_function("Add effects", actions->add);
         print_function("Delete effects", actions->del);
