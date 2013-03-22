@@ -1,0 +1,18 @@
+file			::=		(start <problem name> <initial-def> <goal-def>
+<actions-def>)
+problem name	::=		<name>
+initial-def		::=		(initial <fluent-obj>+)
+goal-def		::=		(goal <fluent-obj>+)
+actions-def		::=		(actions <action>)
+action			::=		(<name> <parameters> <preconditions> <effects> <delete-effects>)
+parameters		::=		(parameters <var>+)
+preconditions	::=		(preconditions <fluent-var>+)
+effects			::=		(effects <fluent-var>+)
+delete-effects	::=		(delete-effects <fluent-var>+)
+fluent-obj		::=		(<fluent> <object>+)
+fluent-var		::=		(<fluent> <var>+)
+fluent			::=		<name>
+object			::=		<name>
+name			::=		<letter>+
+var				::=		?<letter>+
+letter			::=		a..z | A..Z
