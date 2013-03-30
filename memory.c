@@ -78,6 +78,6 @@ Stack_Element * new_Stack_Element ()
 Plan * new_Plan ()
 {
 	Plan * plan = (Plan *) calloc (1, sizeof(Plan) + 1);
-	plan->action = (char *) malloc (sizeof(char) + 1);
+	plan->action_name = (char *) malloc (sizeof(char) + 1);
 	return plan;
 }

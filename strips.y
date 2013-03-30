@@ -66,7 +66,7 @@ void yyerror(const char *s);
 start:
 	'(' START_TK IDENTIFIER_TK
 	    initial goal actions ')'		{ problem_name = malloc (strlen ($3) + 1);
-	    					  strcpy(problem_name, $3); };
+	    					  			  strcpy(problem_name, $3); };
 
 
 initial:

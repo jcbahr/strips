@@ -22,15 +22,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 
 /**** PARSING ****/
+
 extern int yylex();
 extern int yyparse();
 extern FILE *yyin;
 
 
+
 /**** STRUCTS ****/
+
 typedef struct ID_List_
 {
 	char * id;
@@ -71,8 +75,9 @@ typedef struct Action_
 
 typedef struct Plan_
 {
-	char * action;
+	char * action_name;
 	struct ID_List_ * obj;
+	struct Plan_ * next;
 } Plan;
 
 typedef union Stack_Element_
@@ -94,13 +99,17 @@ typedef struct Stack_
 	struct Stack_ * prev;
 } Stack;
 
+
 /**** GLOBAL VARS ****/
+
 extern char * problem_name;
 extern Fluent * init_state;
 extern Fluent * goal_state;
 extern Action * actions;
 
+
 /**** MEM FUNCTIONS ****/
+
 Fluent * new_Fluent();
 ID_List * new_ID_List();
 Var_List * new_Var_List();
@@ -110,7 +119,18 @@ Plan * new_Plan();
 Stack * new_Stack();
 Stack_Element * new_Stack_Element();
 
+
+/**** PRINT FUNCTIONS ****/
+
+int print_fluent();
+int print_function();
+int print_var_list();
+int print_actions();
+
+
 /**** OTHER FUNCTIONS ****/
+
 Plan * strips_loop();
+Plan * append_to_Plan();
 Stack * pop();
 Stack * push();

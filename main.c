@@ -69,15 +69,28 @@ int main (int argc, char *argv[])
 Plan * strips_loop (Fluent * state, Plan * plan, Stack * stack)
 {
     Stack_Element * top = new_Stack_Element();
-    for ( ; stack = stack->next; stack->next)
+
+	// testing
+
+	top->operator = malloc ( 5 * sizeof(char) + 1);
+	strcpy(top->operator, "push!");
+	*stack->type = 1;
+
+	for ( ; stack = stack->next; stack->next)
     {
         top = stack->element;
+		Plan * new_op = new_Plan();
 		switch(*stack->type)
 		{
 			case 1:			// operator
 				//state += add list
 				//state -= del list
-				//plan += operator
+				
+				new_op->action_name = malloc (strlen (top->operator) + 1);
+				strcpy(new_op->action_name, top->operator);
+				// what else gets added to new_op?
+				// copy objects (don't just send pointer)
+				plan = append_to_Plan( plan, new_op );
 				break;
 			case 2:			// conjunctive goal
 				//select ordering for subgoals
@@ -107,88 +120,29 @@ Stack * push (Stack_Element * element, char * type, Stack * stack)
     top->prev = NULL;
 }
 
+Plan * append_to_Plan ( Plan * plan, Plan * addition )
+{
+	Plan * out = plan;
+	while (plan->next)
+	{
+		plan = plan->next;
+	}
+	plan->next = addition;
+
+	return out;
+}
+
+bool * equal_ID_Lists( ID_List * first, ID_List * second )
+{
+	// what kind of loop is best? while loop? for loop, probably
+}
+
+
+
 // function for adding fluents to state
 
 
 // function for removing fluents from state
-
 Fluent * remove_Fluent(Fluent * state, Fluent * delete)
-{
+{ }
 
-}
-
-int print_fluent (char * name, Fluent * state)
-{
-    printf("\n%s:\n", name);
-    while (state)
-    {
-        printf("Fluent '%s'", state->name);
-        if (state->obj)
-        {
-            printf(" with objects '%s'", state->obj->id);
-        }
-        state->obj = state->obj->next;
-        while (state->obj->id)
-        {
-            printf(", '%s'", state->obj->id);
-            state->obj = state->obj->next;
-        }
-        printf("\n");
-        state = state->next;
-    }
-}
-
-
-int print_function (char * name, Function * func)
-{
-    printf("\n%s:\n", name);
-    while (func)
-    {
-        printf("Function '%s'", func->name);
-        if (func->obj)
-        {
-            printf(" with objects '%s'", func->obj->var);
-        }
-        func->obj = func->obj->next;
-        while (func->obj->var)
-        {
-            printf(", '%s'", func->obj->var);
-            func->obj = func->obj->next;
-        }
-        printf("\n");
-        func = func->next;
-    }
-}
-
-int print_var_list (char * name, Var_List * param)
-{
-    if (param)
-    {
-        printf("%s: '%s'", name, param->var);
-    }
-    param = param->next;
-    while (param->var)
-    {
-        printf(", '%s'", param->var);
-        param = param->next;
-    }
-    printf("\n");
-}
-
-int print_actions (Action * actions)
-{
-    printf("\n\nACTION %s:\n", actions->name);
-    print_var_list("Parameters", actions->param);
-    print_function("Preconditions", actions->pre);
-    print_function("Add effects", actions->add);
-    print_function("Delete effects", actions->del);
-    while (actions->next)
-    {
-        actions = actions->next;
-        printf("\n\nACTION %s:\n", actions->name);
-        print_var_list("Parameters", actions->param);
-        print_function("Preconditions", actions->pre);
-        print_function("Add effects", actions->add);
-        print_function("Delete effects", actions->del);
-    }
-}
