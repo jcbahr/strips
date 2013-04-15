@@ -10,8 +10,8 @@ default:
 	flex $(FILE).l
 	$(CC) main.c memory.c print.c $(FILE).tab.c lex.yy.c -lfl -o ${EXEC}
 	rm lex.yy.c
-	rm $(FILE).tab.c
-	rm $(FILE).tab.h
+	rm ${FILE}.tab.c
+	rm ${FILE}.tab.h
 
 debug:
 	$(BISON) --report=state,solved --report-file=$(BISON.DEBUG) -d $(FILE).y

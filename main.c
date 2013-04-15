@@ -55,15 +55,30 @@ int main (int argc, char *argv[])
         yyparse();
     }
     fclose(filepointer);
-//	print_fluent("Initial state:",init_state);
-//	print_fluent("Goal state:",goal_state);
-//	print_actions(actions);
-    state = init_state;
+/*  
+ *	print_fluent("Initial state:",init_state);
+ *	print_fluent("Goal state:",goal_state);
+ *	print_actions(actions);
+ *
+ */
+	/*
+	state = init_state;
     plan = new_Plan();
     stack = new_Stack();
 	*stack->type = 2;
     Plan * plan_out = strips_loop(state, plan, stack);
+	*/
 //	print plan
+
+	if ( equal_ID_Lists( init_state->obj, goal_state->obj ))
+	{
+		printf("Yea!\n");
+	}
+	else
+		printf("Nay!\n");
+
+	printf("%d",Fluent_in_List(init_state, goal_state));
+
 }
 
 Plan * strips_loop (Fluent * state, Plan * plan, Stack * stack)
@@ -76,7 +91,7 @@ Plan * strips_loop (Fluent * state, Plan * plan, Stack * stack)
 	strcpy(top->operator, "push!");
 	*stack->type = 1;
 
-	for ( ; stack = stack->next; stack->next)
+	for ( ; stack->next; stack = stack->next )
     {
         top = stack->element;
 		Plan * new_op = new_Plan();
@@ -132,11 +147,63 @@ Plan * append_to_Plan ( Plan * plan, Plan * addition )
 	return out;
 }
 
-bool * equal_ID_Lists( ID_List * first, ID_List * second )
+bool equal_ID_Lists( ID_List * a, ID_List * b )
 {
-	// what kind of loop is best? while loop? for loop, probably
+	if (strcmp(a->id, b->id))
+	{
+		return false;
+	}
+	
+	while(a->next && b->next)
+	{
+		if (strcmp(a->id, b->id))
+		{
+			return false;
+		}
+		a = a->next;
+		b = b->next;
+	}
+
+	return true;
 }
 
+bool equal_Fluents( Fluent * a, Fluent * b )
+{
+	if (strcmp(a->name, b->name))
+	{
+		return false;
+	}
+	else if (! equal_ID_Lists(a->obj, b->obj))
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+int Fluent_in_List( Fluent * a, Fluent * list )
+{
+	/*
+	 *	returns false if fluent is not in the list of fluents
+	 *	or
+	 *	returns the position of the equal fluent + 1
+	 *	so the first is "1"
+	 */
+	int i;
+
+	for ( i = 0; list->next; i++, list = list->next )
+	{
+		printf("i=%d\n",i);
+		print_fluent("a",a);
+		print_fluent("list",list);
+		if (equal_Fluents(a, list))
+		{
+			printf("i+1=%d\n",i+1);
+			return i+1;
+		}
+	}
+	return 0;
+}
 
 
 // function for adding fluents to state

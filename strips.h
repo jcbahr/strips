@@ -134,3 +134,5 @@ Plan * strips_loop();
 Plan * append_to_Plan();
 Stack * pop();
 Stack * push();
+bool equal_ID_Lists();
+bool equal_Fluents();

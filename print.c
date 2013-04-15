@@ -23,7 +23,43 @@
 
 int print_fluent (char * name, Fluent * state)
 {
-    printf("\n%s:\n", name);
+
+	do
+	{
+		printf("Fluent '%s' with objects: ", state->name);
+		while(state->obj->next)
+		{
+			printf("%s",state->obj->id);
+			state->obj = state->obj->next;
+		}
+		printf("%s",state->obj->id);
+		if (state->next)
+		{
+			state = state->next;
+		}
+	}
+	while (state->next);
+
+		
+
+	/*
+	printf("\n%s:\n", name);
+	for( ; state->next; printf("%s",state->next->name),  state = state->next)
+	{
+		printf("Fluent '%s'",state->name);
+		if (state->obj)
+		{
+			printf(" with objects '%s'", state->obj->id);
+			state->obj = state->obj->next;
+		}
+		for ( ; state->obj->next; state->obj = state->obj->next)
+		{
+			printf(", '%s'", state->obj->id);
+		}
+		printf("\n");
+	}
+	*/		
+	/*
     while (state)
     {
         printf("Fluent '%s'", state->name);
@@ -40,6 +76,7 @@ int print_fluent (char * name, Fluent * state)
         printf("\n");
         state = state->next;
     }
+	*/	
 }
 
 
