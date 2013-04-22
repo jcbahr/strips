@@ -1,15 +1,14 @@
 (start blockworld ; this is a comment
 	;; this is the initial state
         (initial
-				(on blockA blockB)
-				(on blockB table)
-				(on blockC table))
+				(one a)
+				(two b)
+				(three c))
 	;; this is the goal state
         (goal
-                (on blockA blockB)
-                (on BlockA blockB)
-				(off a b)
-				(on blockB blockC))
+                (two a)
+                (two b)
+				(two c))
 	;; these are actions
         (actions
                 (take 						; take ?x from on top of ?y

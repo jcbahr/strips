@@ -21,24 +21,36 @@
 
 #include "strips.h"
 
-int print_fluent (char * name, Fluent * state)
+int print_fluent (Fluent * state)
 {
 
-	do
+	while (state)
 	{
-		printf("Fluent '%s' with objects: ", state->name);
-		while(state->obj->next)
+		printf("\nFluent '%s' with objects: ", state->name);
+	
+		while(state->obj)
 		{
-			printf("%s",state->obj->id);
-			state->obj = state->obj->next;
+			printf("%s ",state->obj->id);
+			if (state->obj->next->id)
+			{
+				state->obj = state->obj->next;
+			}
+			else
+			{
+				state->obj = NULL;
+			}
 		}
-		printf("%s",state->obj->id);
+
+
 		if (state->next)
 		{
 			state = state->next;
 		}
+		else
+		{
+			state = NULL;
+		}
 	}
-	while (state->next);
 
 		
 

@@ -55,12 +55,12 @@ int main (int argc, char *argv[])
         yyparse();
     }
     fclose(filepointer);
-/*  
- *	print_fluent("Initial state:",init_state);
- *	print_fluent("Goal state:",goal_state);
- *	print_actions(actions);
- *
- */
+
+
+	print_fluent(init_state);
+	print_fluent(goal_state);
+//	print_actions(actions);
+ 
 	/*
 	state = init_state;
     plan = new_Plan();
@@ -70,15 +70,22 @@ int main (int argc, char *argv[])
 	*/
 //	print plan
 
-	if ( equal_ID_Lists( init_state->obj, goal_state->obj ))
+/*	if ( equal_ID_Lists( init_state->obj, goal_state->obj ))
 	{
 		printf("Yea!\n");
 	}
 	else
 		printf("Nay!\n");
+*/
+	printf("\n\n%d",Fluent_in_List(init_state, goal_state));
 
-	printf("%d",Fluent_in_List(init_state, goal_state));
+	testing(init_state);
 
+}
+
+void testing (Fluent * a)
+{
+	print_fluent(a);
 }
 
 Plan * strips_loop (Fluent * state, Plan * plan, Stack * stack)
@@ -183,14 +190,34 @@ bool equal_Fluents( Fluent * a, Fluent * b )
 
 int Fluent_in_List( Fluent * a, Fluent * list )
 {
-	/*
+print_fluent(a);
+/*
+	*
 	 *	returns false if fluent is not in the list of fluents
 	 *	or
 	 *	returns the position of the equal fluent + 1
 	 *	so the first is "1"
-	 */
-	int i;
+	 *
+	int i=0;
 
+	while ( list )
+	{
+		printf("\n\n\ni=%d\n",i);
+		i++;
+		print_fluent(a);
+		print_fluent(list);
+		if (equal_Fluents(a, list))
+		{
+			printf("returning i (= %d)\n",i+1);
+			return i;
+		}
+		if (list->next)
+			list = list->next;
+		else
+			return 0;
+	}
+
+///*
 	for ( i = 0; list->next; i++, list = list->next )
 	{
 		printf("i=%d\n",i);
@@ -203,6 +230,7 @@ int Fluent_in_List( Fluent * a, Fluent * list )
 		}
 	}
 	return 0;
+*/
 }
 
 
