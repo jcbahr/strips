@@ -23,11 +23,11 @@
 
 int print_fluent (Fluent * state)
 {
-
+	ID_List * first_obj;
 	while (state)
 	{
+		first_obj = state->obj;
 		printf("\nFluent '%s' with objects: ", state->name);
-	
 		while(state->obj)
 		{
 			printf("%s ",state->obj->id);
@@ -40,7 +40,7 @@ int print_fluent (Fluent * state)
 				state->obj = NULL;
 			}
 		}
-
+		state->obj = first_obj;
 
 		if (state->next)
 		{
@@ -51,44 +51,6 @@ int print_fluent (Fluent * state)
 			state = NULL;
 		}
 	}
-
-		
-
-	/*
-	printf("\n%s:\n", name);
-	for( ; state->next; printf("%s",state->next->name),  state = state->next)
-	{
-		printf("Fluent '%s'",state->name);
-		if (state->obj)
-		{
-			printf(" with objects '%s'", state->obj->id);
-			state->obj = state->obj->next;
-		}
-		for ( ; state->obj->next; state->obj = state->obj->next)
-		{
-			printf(", '%s'", state->obj->id);
-		}
-		printf("\n");
-	}
-	*/		
-	/*
-    while (state)
-    {
-        printf("Fluent '%s'", state->name);
-        if (state->obj)
-        {
-            printf(" with objects '%s'", state->obj->id);
-        }
-        state->obj = state->obj->next;
-        while (state->obj->id)
-        {
-            printf(", '%s'", state->obj->id);
-            state->obj = state->obj->next;
-        }
-        printf("\n");
-        state = state->next;
-    }
-	*/	
 }
 
 

@@ -79,13 +79,7 @@ int main (int argc, char *argv[])
 */
 	printf("\n\n%d",Fluent_in_List(init_state, goal_state));
 
-	testing(init_state);
 
-}
-
-void testing (Fluent * a)
-{
-	print_fluent(a);
 }
 
 Plan * strips_loop (Fluent * state, Plan * plan, Stack * stack)
