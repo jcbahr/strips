@@ -57,27 +57,34 @@ int main (int argc, char *argv[])
     fclose(filepointer);
 
 
-	print_fluent(init_state);
-	print_fluent(goal_state);
-//	print_actions(actions);
- 
 	/*
 	state = init_state;
     plan = new_Plan();
     stack = new_Stack();
 	*stack->type = 2;
     Plan * plan_out = strips_loop(state, plan, stack);
+ //	print plan
 	*/
-//	print plan
 
-/*	if ( equal_ID_Lists( init_state->obj, goal_state->obj ))
-	{
-		printf("Yea!\n");
-	}
-	else
-		printf("Nay!\n");
-*/
-	printf("\n\n%d",Fluent_in_List(init_state, goal_state));
+test();
+
+}
+
+
+void test()
+{
+	ID_List * add_obj = new_ID_List();
+	strcpy(add_obj->id, "door");
+	Fluent * addition = new_Fluent();	
+	addition->obj = add_obj;
+	strcpy(addition->name, "open");
+
+	print_fluent(init_state);
+	
+	init_state = add_Fluent(goal_state, init_state);
+	printf("\n\n");
+
+	print_fluent(init_state);
 
 
 }
@@ -86,7 +93,7 @@ Plan * strips_loop (Fluent * state, Plan * plan, Stack * stack)
 {
     Stack_Element * top = new_Stack_Element();
 
-	// testing
+ //	testing
 
 	top->operator = malloc ( 5 * sizeof(char) + 1);
 	strcpy(top->operator, "push!");
@@ -98,23 +105,30 @@ Plan * strips_loop (Fluent * state, Plan * plan, Stack * stack)
 		Plan * new_op = new_Plan();
 		switch(*stack->type)
 		{
-			case 1:			// operator
-				//state += add list
-				//state -= del list
+			case 1:
+			 //	operator
+			 //	state += add list
+			 //	state -= del list
 				
 				new_op->action_name = malloc (strlen (top->operator) + 1);
 				strcpy(new_op->action_name, top->operator);
-				// what else gets added to new_op?
-				// copy objects (don't just send pointer)
+
+			 //	what else gets added to new_op?
+			 //	copy objects (don't just send pointer)
+
 				plan = append_to_Plan( plan, new_op );
 				break;
-			case 2:			// conjunctive goal
-				//select ordering for subgoals
-				//push back on to stack
+
+			case 2:
+			 //	conjunctive goal
+			 //	select ordering for subgoals
+			 //	push back on to stack
 				break;
-			case 3:			// simple goal
-				//in current state
-				//or unsatisfied
+
+			case 3:
+			 //	simple goal
+			 //	in current state
+			 //	or unsatisfied
 				break;
 		}
     }
@@ -184,25 +198,21 @@ bool equal_Fluents( Fluent * a, Fluent * b )
 
 int Fluent_in_List( Fluent * a, Fluent * list )
 {
-print_fluent(a);
-/*
-	*
+	/*
 	 *	returns false if fluent is not in the list of fluents
 	 *	or
 	 *	returns the position of the equal fluent + 1
 	 *	so the first is "1"
-	 *
+	 */
 	int i=0;
 
 	while ( list )
 	{
-		printf("\n\n\ni=%d\n",i);
 		i++;
-		print_fluent(a);
-		print_fluent(list);
+	 //	print_fluent(a);
+	 //	print_fluent(list);
 		if (equal_Fluents(a, list))
 		{
-			printf("returning i (= %d)\n",i+1);
 			return i;
 		}
 		if (list->next)
@@ -210,26 +220,22 @@ print_fluent(a);
 		else
 			return 0;
 	}
-
-///*
-	for ( i = 0; list->next; i++, list = list->next )
-	{
-		printf("i=%d\n",i);
-		print_fluent("a",a);
-		print_fluent("list",list);
-		if (equal_Fluents(a, list))
-		{
-			printf("i+1=%d\n",i+1);
-			return i+1;
-		}
-	}
-	return 0;
-*/
 }
 
 
 // function for adding fluents to state
-
+Fluent * add_Fluent(Fluent * add, Fluent * list)
+{
+	if (Fluent_in_List(add, list))
+	{
+		return list;
+	}
+	else
+	{
+		add->next = list;
+		return add;
+	}
+}
 
 // function for removing fluents from state
 Fluent * remove_Fluent(Fluent * state, Fluent * delete)

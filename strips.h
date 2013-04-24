@@ -128,6 +128,11 @@ int print_var_list();
 int print_actions();
 
 
+/**** FLUENT FUNCTIONS ****/
+
+Fluent * add_Fluent();
+
+
 /**** OTHER FUNCTIONS ****/
 
 Plan * strips_loop();
@@ -136,3 +141,5 @@ Stack * pop();
 Stack * push();
 bool equal_ID_Lists();
 bool equal_Fluents();
+void test();
+

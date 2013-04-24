@@ -1,14 +1,14 @@
 (start blockworld ; this is a comment
 	;; this is the initial state
         (initial
-				(one a)
-				(two b)
-				(three c))
+				(initone aone atwo)
+				(inittwo bone btwo)
+				(initthree cone ctwo cthree))
 	;; this is the goal state
         (goal
-                (two a)
-                (two b)
-				(two c))
+                (goalone aone)
+                (goaltwo bone btwo bthree)
+				(goalthree cone ctwo))
 	;; these are actions
         (actions
                 (take 						; take ?x from on top of ?y

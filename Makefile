@@ -26,3 +26,7 @@ clean:
 	rm ${EXEC}
 #	rm $(BISON).debug
 #	rm flex.debug
+
+sandwich:
+	@ ${USER}=`whoami`
+	@ [[ "${USER}" == "root" ]] && echo Sure thing! || echo Make it yourself.
