@@ -1,6 +1,10 @@
 STRIPS Planner in C
 ===================
 
+Made for a project at Watchung Hills REg. High School.
+
+No longer being developed!
+
 Currently unusable
 
 USAGE
