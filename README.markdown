@@ -3,9 +3,8 @@ STRIPS Planner in C
 
 Made for a project at Watchung Hills REg. High School.
 
-No longer being developed!
+__No longer being developed!__
 
-Currently unusable
 
 USAGE
 -----
